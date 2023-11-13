@@ -7,5 +7,7 @@
         "activityBar.inactiveForeground": "#eeb6eb",
         "titleBar.activeBackground": "#066d71",
         "titleBar.activeForeground": "#fffcf0"
-    }
+    },
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
