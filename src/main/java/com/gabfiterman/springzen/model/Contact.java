@@ -2,6 +2,8 @@ package com.gabfiterman.springzen.model;
 
 import java.sql.Date;
 
+import com.gabfiterman.springzen.dto.CreateContactData;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -13,8 +15,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = { "id" })
 public class Contact {
+
+        public Contact(CreateContactData data) {
+                this.name = data.name();
+                this.contact = data.contact();
+                this.createdDate = data.createdDate();
+        }
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -28,7 +37,4 @@ public class Contact {
         @Column(name = "created_date", nullable = false)
         private Date createdDate;
 
-        @ManyToOne
-        @JoinColumn(name = "professional_id", nullable = false)
-        private Professional professional;
 }

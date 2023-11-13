@@ -2,6 +2,8 @@ package com.gabfiterman.springzen.model;
 
 import java.sql.Date;
 
+import com.gabfiterman.springzen.dto.CreateProfessionalData;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -13,8 +15,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = { "id" })
 public class Professional {
+
+        public Professional(CreateProfessionalData data) {
+                this.name = data.name();
+                this.role = data.role();
+                this.birthDate = data.birthDate();
+                this.createdDate = data.createdDate();
+        }
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
