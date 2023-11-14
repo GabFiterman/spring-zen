@@ -1,5 +1,7 @@
 package com.gabfiterman.springzen.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,9 @@ public class ContactService {
         Contact savedContact = contactRepository.save(contact);
 
         return savedContact.getId();
+    }
+
+    public List<Contact> getAllContacts() {
+        return contactRepository.findAll();
     }
 }

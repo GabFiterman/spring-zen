@@ -1,8 +1,11 @@
 package com.gabfiterman.springzen.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gabfiterman.springzen.dto.CreateProfessionalData;
 import com.gabfiterman.springzen.model.Professional;
-import com.gabfiterman.springzen.repository.ProfessionalRepository;
 import com.gabfiterman.springzen.service.ProfessionalService;
 
 import jakarta.transaction.Transactional;
@@ -31,5 +33,12 @@ public class ProfessionalController {
         return new ResponseEntity<>(
                 "Sucesso! Profissional com id: " + professionalId + " cadastrado",
                 HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Professional>> listAllProfessionals() {
+        List<Professional> professional = professionalService.getAllProfessionals();
+
+        return ResponseEntity.ok(professional);
     }
 }
