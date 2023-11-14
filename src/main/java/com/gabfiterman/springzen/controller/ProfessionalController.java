@@ -46,8 +46,6 @@ public class ProfessionalController {
         return ResponseEntity.ok(professionals);
     }
 
-    // Endpoint para listar todos os profissionais ou um profissional específico por
-    // ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfessionalById(
             @PathVariable(required = false) Long id,
@@ -55,7 +53,6 @@ public class ProfessionalController {
             @RequestParam(required = false) List<String> fields) {
 
         if (id != null) {
-            // Retorna um profissional específico por ID
             Professional professional = professionalService.getProfessionalById(id);
 
             if (professional != null) {

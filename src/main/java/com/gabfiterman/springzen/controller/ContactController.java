@@ -46,8 +46,6 @@ public class ContactController {
         return ResponseEntity.ok(contacts);
     }
 
-    // Endpoint para listar todos os profissionais ou um profissional específico por
-    // ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getContactById(
             @PathVariable(required = false) Long id,
@@ -55,7 +53,6 @@ public class ContactController {
             @RequestParam(required = false) List<String> fields) {
 
         if (id != null) {
-            // Retorna um profissional específico por ID
             Contact contact = contactService.getContactById(id);
 
             if (contact != null) {
@@ -64,7 +61,6 @@ public class ContactController {
                 return ResponseEntity.notFound().build();
             }
         } else {
-            // Retorna todos os profissionais com filtragem opcional
             List<Contact> contacts = contactService.getAllContacts(q, fields);
             return ResponseEntity.ok(contacts);
         }
