@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabfiterman.springzen.dto.CreateProfessionalData;
@@ -36,9 +37,12 @@ public class ProfessionalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Professional>> listAllProfessionals() {
-        List<Professional> professional = professionalService.getAllProfessionals();
+    public ResponseEntity<List<Professional>> listAllProfessionals(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) List<String> fields) {
+        List<Professional> professionals = professionalService.getAllProfessionals(q, fields);
 
-        return ResponseEntity.ok(professional);
+        return ResponseEntity.ok(professionals);
     }
+
 }
