@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabfiterman.springzen.dto.CreateContactData;
@@ -36,8 +37,10 @@ public class ContactController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Contact>> listAllContacts() {
-        List<Contact> contacts = contactService.getAllContacts();
+    public ResponseEntity<List<Contact>> listAllContacts(
+        @RequestParam(required = false) String q,
+        @RequestParam(required = false) List<String> fields) {
+        List<Contact> contacts = contactService.getAllContacts(q, fields);
 
         return ResponseEntity.ok(contacts);
     }
