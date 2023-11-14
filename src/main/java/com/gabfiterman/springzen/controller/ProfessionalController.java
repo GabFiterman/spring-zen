@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,29 @@ public class ProfessionalController {
         List<Professional> professionals = professionalService.getAllProfessionals(q, fields);
 
         return ResponseEntity.ok(professionals);
+    }
+
+    // Endpoint para listar todos os profissionais ou um profissional específico por
+    // ID
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProfessionalById(
+            @PathVariable(required = false) Long id,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) List<String> fields) {
+
+        if (id != null) {
+            // Retorna um profissional específico por ID
+            Professional professional = professionalService.getProfessionalById(id);
+
+            if (professional != null) {
+                return ResponseEntity.ok(professional);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            List<Professional> professionals = professionalService.getAllProfessionals(q, fields);
+            return ResponseEntity.ok(professionals);
+        }
     }
 
 }

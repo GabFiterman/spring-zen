@@ -1,6 +1,7 @@
 package com.gabfiterman.springzen.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,11 @@ public class ProfessionalService {
             }
         }
         return filteredProfessional;
+    }
+
+    public Professional getProfessionalById(Long id) {
+        Optional<Professional> optionalProfessional = professionalRepository.findById(id);
+        return optionalProfessional.orElse(null);
     }
 
 }
