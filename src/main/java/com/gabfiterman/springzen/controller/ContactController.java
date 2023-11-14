@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +39,34 @@ public class ContactController {
 
     @GetMapping
     public ResponseEntity<List<Contact>> listAllContacts(
-        @RequestParam(required = false) String q,
-        @RequestParam(required = false) List<String> fields) {
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) List<String> fields) {
         List<Contact> contacts = contactService.getAllContacts(q, fields);
 
         return ResponseEntity.ok(contacts);
+    }
+
+    // Endpoint para listar todos os profissionais ou um profissional específico por
+    // ID
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getContactById(
+            @PathVariable(required = false) Long id,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) List<String> fields) {
+
+        if (id != null) {
+            // Retorna um profissional específico por ID
+            Contact contact = contactService.getContactById(id);
+
+            if (contact != null) {
+                return ResponseEntity.ok(contact);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            // Retorna todos os profissionais com filtragem opcional
+            List<Contact> contacts = contactService.getAllContacts(q, fields);
+            return ResponseEntity.ok(contacts);
+        }
     }
 }

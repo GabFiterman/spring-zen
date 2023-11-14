@@ -1,6 +1,7 @@
 package com.gabfiterman.springzen.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,10 @@ public class ContactService {
             }
         }
         return filteredContact;
+    }
+
+    public Contact getContactById(Long id) {
+        Optional<Contact> optionalContact = contactRepository.findById(id);
+        return optionalContact.orElse(null);
     }
 }
