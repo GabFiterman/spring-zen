@@ -12,6 +12,6 @@ CREATE TABLE
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         contact VARCHAR(255) NOT NULL,
-        created_date DATE NOT NULL
-        -- professional_id BIGINT REFERENCES professional (id) NOT NULL
+        created_date DATE NOT NULL,
+        professional_id BIGINT REFERENCES professional (id) NOT NULL
     );

@@ -34,7 +34,16 @@ public class Contact {
         @Column(nullable = false)
         private String contact;
 
+        // TODO: replace with @CreationTimestamp
         @Column(name = "created_date", nullable = false)
         private Date createdDate;
+
+        @ManyToOne
+        @JoinColumn(name = "professional_id")
+        private Professional professional;
+
+        public void setProfessional(Professional professional) {
+                this.professional = professional;
+        }
 
 }
