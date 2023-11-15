@@ -24,14 +24,16 @@ public class Contact {
                 this.name = data.name();
                 this.contact = data.contact();
                 this.createdDate = data.createdDate();
+                this.active = true;
         }
 
         // Construtor para criar um Contact diretamente (tests)
-        public Contact(Long id, String name, String contact, Date createdDate) {
+        public Contact(Long id, String name, String contact, Date createdDate, boolean active) {
                 this.id = id;
                 this.name = name;
                 this.contact = contact;
                 this.createdDate = createdDate;
+                this.active = true;
         }
 
         @Id
@@ -56,4 +58,10 @@ public class Contact {
                 this.professional = professional;
         }
 
+        @Column(name = "active")
+        private Boolean active;
+
+        public boolean isActive() {
+                return active;
+        }
 }

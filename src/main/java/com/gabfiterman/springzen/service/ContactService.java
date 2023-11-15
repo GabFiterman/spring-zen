@@ -113,4 +113,12 @@ public class ContactService {
         }
         contactRepository.save(contact);
     }
+
+    public void excludeContact(Long id) {
+        Contact contact = contactRepository.findById(id).orElse(null);
+        if (contact != null) {
+            contact.setActive(false);
+            contactRepository.save(contact);
+        }
+    }
 }

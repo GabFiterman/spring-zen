@@ -41,7 +41,7 @@ public class ContactServiceTest {
                 Long professionalId = 1L;
                 CreateContactData data = new CreateContactData("John Contact", "john@example.com",
                                 Date.valueOf("2021-01-01"),
-                                professionalId);
+                                professionalId, true);
 
                 // Mock repository response
                 Professional professional = new Professional();
@@ -65,11 +65,9 @@ public class ContactServiceTest {
         public void testGetAllContacts() {
                 // Setup test data
                 CreateContactData data1 = new CreateContactData("John Contact", "john@example.com",
-                                Date.valueOf("2021-10-24"),
-                                1L);
+                                Date.valueOf("2021-10-24"),1L, true);
                 CreateContactData data2 = new CreateContactData("Jane Contact", "jane@example.com",
-                                Date.valueOf("2021-06-31"),
-                                2L);
+                                Date.valueOf("2021-06-31"),2L, true);
 
                 // Mock repository response
                 Contact contact1 = new Contact(data1);
@@ -90,14 +88,11 @@ public class ContactServiceTest {
         public void testGetAllContactsWithFiltersAndFields() {
                 // Setup test data
                 CreateContactData data1 = new CreateContactData("John Contact", "john@example.com",
-                                Date.valueOf("2021-01-01"),
-                                1L);
+                                Date.valueOf("2021-01-01"),1L, true);
                 CreateContactData data2 = new CreateContactData("Jane Contact", "jane@example.com",
-                                Date.valueOf("2021-01-01"),
-                                2L);
+                                Date.valueOf("2021-01-01"),2L, true);
                 CreateContactData data3 = new CreateContactData("Bob Contact", "bob@example.com",
-                                Date.valueOf("2021-01-01"),
-                                1L);
+                                Date.valueOf("2021-01-01"),1L, true);
 
                 // Mock repository response
                 Contact contact1 = new Contact(data1);

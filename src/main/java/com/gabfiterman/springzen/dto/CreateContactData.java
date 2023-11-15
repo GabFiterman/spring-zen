@@ -6,7 +6,8 @@ public record CreateContactData(
                 String name,
                 String contact,
                 Date createdDate,
-                Long professionalId
+                Long professionalId,
+                Boolean active
 ) {
         public Long getProfessionalId() {
                 return professionalId;
