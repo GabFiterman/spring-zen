@@ -25,6 +25,7 @@ public class Professional {
                 this.role = data.role();
                 this.birthDate = data.birthDate();
                 this.createdDate = data.createdDate();
+                this.active = true;
         }
 
         @Id
@@ -43,4 +44,11 @@ public class Professional {
 
         @Column(name = "created_date", nullable = false)
         private Date createdDate;
+
+        @Column(name = "active")
+        private Boolean active;
+
+        public boolean isActive() {
+                return active;
+        }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +35,8 @@ public class ProfessionalServiceTest {
     @Test
     public void testSaveProfessional() {
         // Setup test data
-        CreateProfessionalData data = new CreateProfessionalData("Jhon Doe", ProfessionalRole.Desenvolvedor, Date.valueOf("2021-01-01"), Date.valueOf("2021-01-01"));
+        CreateProfessionalData data = new CreateProfessionalData("Jhon Doe", ProfessionalRole.Desenvolvedor,
+                Date.valueOf("2021-01-01"), Date.valueOf("2021-01-01"), true);
 
         // Mock repository response
         Professional professional = new Professional(data);
@@ -53,9 +55,9 @@ public class ProfessionalServiceTest {
     public void testGetAllProfessionals() {
         // Setup test data
         CreateProfessionalData data1 = new CreateProfessionalData("Jhon Doe", ProfessionalRole.Desenvolvedor,
-                Date.valueOf("2000-01-05"), Date.valueOf("2023-11-14"));
+                Date.valueOf("2000-01-05"), Date.valueOf("2023-11-14"), true);
         CreateProfessionalData data2 = new CreateProfessionalData("Ronny Jhonson", ProfessionalRole.Desenvolvedor,
-                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"));
+                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"), true);
 
         // Mock repository response
         Professional professional1 = new Professional(data1);
@@ -76,11 +78,11 @@ public class ProfessionalServiceTest {
     public void testGetAllProfessionalsWithFiltersAndFields() {
         // Setup test data
         CreateProfessionalData data1 = new CreateProfessionalData("Jhon Doe", ProfessionalRole.Desenvolvedor,
-                Date.valueOf("2000-01-05"), Date.valueOf("2023-11-14"));
+                Date.valueOf("2000-01-05"), Date.valueOf("2023-11-14"), true);
         CreateProfessionalData data2 = new CreateProfessionalData("Ronny Jhonson", ProfessionalRole.Desenvolvedor,
-                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"));
+                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"), true);
         CreateProfessionalData data3 = new CreateProfessionalData("Bob Doe", ProfessionalRole.Desenvolvedor,
-                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"));
+                Date.valueOf("1978-04-22"), Date.valueOf("2021-11-14"), true);
 
         // Mock repository response
         Professional professional1 = new Professional(data1);
@@ -140,5 +142,26 @@ public class ProfessionalServiceTest {
         // Assert the results
         assertNull(nonExistentResult);
         verify(professionalRepository, times(1)).findById(nonExistentId);
+    }
+
+    // Test case for excluding a professional
+    @Test
+    public void testExcludeProfessional() {
+        // Setup test data
+        Long professionalId = 1L;
+        Professional professional = new Professional();
+        professional.setId(professionalId);
+        professional.setActive(true);
+
+        // Mock repository response when a professional with the provided ID exists
+        when(professionalRepository.findById(professionalId)).thenReturn(Optional.of(professional));
+
+        // Call the method under test
+        professionalService.excludeProfessional(professionalId);
+
+        // Assert the results
+        assertFalse(professional.isActive());
+        verify(professionalRepository, times(1)).findById(professionalId);
+        verify(professionalRepository, times(1)).save(professional);
     }
 }

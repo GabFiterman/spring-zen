@@ -24,14 +24,16 @@ public class Contact {
                 this.name = data.name();
                 this.contact = data.contact();
                 this.createdDate = data.createdDate();
+                this.active = true;
         }
 
-        // Construtor para criar um Contact diretamente (tests)
-        public Contact(Long id, String name, String contact, Date createdDate) {
+        // Constructor to create a Contact directly (tests)
+        public Contact(Long id, String name, String contact, Date createdDate, boolean active) {
                 this.id = id;
                 this.name = name;
                 this.contact = contact;
                 this.createdDate = createdDate;
+                this.active = true;
         }
 
         @Id
@@ -44,7 +46,6 @@ public class Contact {
         @Column(nullable = false)
         private String contact;
 
-        // TODO: replace with @CreationTimestamp
         @Column(name = "created_date", nullable = false)
         private Date createdDate;
 
@@ -56,4 +57,10 @@ public class Contact {
                 this.professional = professional;
         }
 
+        @Column(name = "active")
+        private Boolean active;
+
+        public boolean isActive() {
+                return active;
+        }
 }

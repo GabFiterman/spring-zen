@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabfiterman.springzen.dto.CreateContactData;
+import com.gabfiterman.springzen.dto.UpdateContactData;
 import com.gabfiterman.springzen.model.Contact;
 import com.gabfiterman.springzen.model.Professional;
 import com.gabfiterman.springzen.repository.ContactRepository;
@@ -92,5 +93,32 @@ public class ContactService {
     public Contact getContactById(Long id) {
         Optional<Contact> optionalContact = contactRepository.findById(id);
         return optionalContact.orElse(null);
+    }
+
+    public void updateContact(Contact contact, UpdateContactData data) {
+        if (data.name() != null) {
+            contact.setName(data.name());
+        }
+
+        if (data.contact() != null) {
+            contact.setContact(data.contact());
+        }
+
+        if (data.professionalId() != null) {
+            Professional professional = professionalRepository.findById(data.professionalId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Professional not found with id: " + data.professionalId()));
+
+            contact.setProfessional(professional);
+        }
+        contactRepository.save(contact);
+    }
+
+    public void excludeContact(Long id) {
+        Contact contact = contactRepository.findById(id).orElse(null);
+        if (contact != null) {
+            contact.setActive(false);
+            contactRepository.save(contact);
+        }
     }
 }

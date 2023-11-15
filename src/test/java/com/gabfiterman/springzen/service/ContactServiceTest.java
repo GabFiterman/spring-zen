@@ -1,6 +1,7 @@
 package com.gabfiterman.springzen.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,7 +42,7 @@ public class ContactServiceTest {
                 Long professionalId = 1L;
                 CreateContactData data = new CreateContactData("John Contact", "john@example.com",
                                 Date.valueOf("2021-01-01"),
-                                professionalId);
+                                professionalId, true);
 
                 // Mock repository response
                 Professional professional = new Professional();
@@ -65,11 +66,9 @@ public class ContactServiceTest {
         public void testGetAllContacts() {
                 // Setup test data
                 CreateContactData data1 = new CreateContactData("John Contact", "john@example.com",
-                                Date.valueOf("2021-10-24"),
-                                1L);
+                                Date.valueOf("2021-10-24"), 1L, true);
                 CreateContactData data2 = new CreateContactData("Jane Contact", "jane@example.com",
-                                Date.valueOf("2021-06-31"),
-                                2L);
+                                Date.valueOf("2021-06-31"), 2L, true);
 
                 // Mock repository response
                 Contact contact1 = new Contact(data1);
@@ -90,14 +89,11 @@ public class ContactServiceTest {
         public void testGetAllContactsWithFiltersAndFields() {
                 // Setup test data
                 CreateContactData data1 = new CreateContactData("John Contact", "john@example.com",
-                                Date.valueOf("2021-01-01"),
-                                1L);
+                                Date.valueOf("2021-01-01"), 1L, true);
                 CreateContactData data2 = new CreateContactData("Jane Contact", "jane@example.com",
-                                Date.valueOf("2021-01-01"),
-                                2L);
+                                Date.valueOf("2021-01-01"), 2L, true);
                 CreateContactData data3 = new CreateContactData("Bob Contact", "bob@example.com",
-                                Date.valueOf("2021-01-01"),
-                                1L);
+                                Date.valueOf("2021-01-01"), 1L, true);
 
                 // Mock repository response
                 Contact contact1 = new Contact(data1);
@@ -155,5 +151,25 @@ public class ContactServiceTest {
                 // Assert the results
                 assertNull(nonExistentResult);
                 verify(contactRepository, times(1)).findById(nonExistentId);
+        }
+
+        @Test
+        public void testExcludeContact() {
+                // Setup test data
+                Long contactId = 1L;
+                Contact contact = new Contact();
+                contact.setId(contactId);
+                contact.setActive(true);
+
+                // Mock repository response when a contact with the provided ID exists
+                when(contactRepository.findById(contactId)).thenReturn(Optional.of(contact));
+
+                // Call the method under test
+                contactService.excludeContact(contactId);
+
+                // Assert the results
+                assertFalse(contact.isActive());
+                verify(contactRepository, times(1)).findById(contactId);
+                verify(contactRepository, times(1)).save(contact);
         }
 }

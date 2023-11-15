@@ -1,15 +1,12 @@
 package com.gabfiterman.springzen.dto;
 
-import java.sql.Date;
-
-public record CreateContactData(
+public record UpdateContactData(
                 String name,
                 String contact,
-                Date createdDate,
-                Long professionalId,
-                Boolean active
-) {
+                Long professionalId) {
+
         public Long getProfessionalId() {
                 return professionalId;
         }
+
 }

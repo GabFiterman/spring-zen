@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabfiterman.springzen.dto.CreateProfessionalData;
+import com.gabfiterman.springzen.dto.UpdateProfessionalData;
 import com.gabfiterman.springzen.model.Professional;
 import com.gabfiterman.springzen.repository.ProfessionalRepository;
 
@@ -25,19 +26,23 @@ public class ProfessionalService {
 
     public List<Professional> getAllProfessionals(String query, List<String> fields) {
         List<Professional> professionals = professionalRepository.findAll();
-
+    
+        professionals = professionals.stream()
+                .filter(Professional::isActive)
+                .collect(Collectors.toList());
+    
         if (query != null && !query.isEmpty()) {
             String lowerQuery = query.replace("%", " ");
-
+    
             professionals = professionals.stream()
                     .filter(professional -> containsQuery(professional, lowerQuery))
                     .collect(Collectors.toList());
         }
-
+    
         if (fields != null && !fields.isEmpty()) {
             professionals = filterFields(professionals, fields);
         }
-
+    
         return professionals;
     }
 
@@ -80,6 +85,30 @@ public class ProfessionalService {
     public Professional getProfessionalById(Long id) {
         Optional<Professional> optionalProfessional = professionalRepository.findById(id);
         return optionalProfessional.orElse(null);
+    }
+
+    public void updateProfessional(Professional professional, UpdateProfessionalData data) {
+        if (data.name() != null) {
+            professional.setName(data.name());
+        }
+
+        if (data.role() != null) {
+            professional.setRole(data.role());
+        }
+
+        if (data.birthDate() != null) {
+            professional.setBirthDate(data.birthDate());
+        }
+
+        professionalRepository.save(professional);
+    }
+
+    public void excludeProfessional(Long id) {
+        Professional professional = professionalRepository.findById(id).orElse(null);
+        if (professional != null) {
+            professional.setActive(false);
+            professionalRepository.save(professional);
+        }
     }
 
 }
