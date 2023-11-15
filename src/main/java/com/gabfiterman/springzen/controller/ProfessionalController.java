@@ -28,7 +28,7 @@ import jakarta.transaction.Transactional;
  * All requests are mapped to the path "/professional".
  */
 @RestController
-@RequestMapping("/profissional")
+@RequestMapping("/profissionais")
 public class ProfessionalController {
 
     @Autowired

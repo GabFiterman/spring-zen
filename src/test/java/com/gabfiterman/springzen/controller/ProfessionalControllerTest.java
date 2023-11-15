@@ -65,7 +65,7 @@ public class ProfessionalControllerTest {
                                 .thenReturn(professionalId);
 
                 // Perform the HTTP request
-                mockMvc.perform(post("/profissional")
+                mockMvc.perform(post("/profissionais")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(data)))
                                 .andExpect(status().isCreated())
@@ -95,7 +95,7 @@ public class ProfessionalControllerTest {
                 when(professionalService.getAllProfessionals(null, null)).thenReturn(professionals);
 
                 // Perform GET request
-                mockMvc.perform(get("/profissional"))
+                mockMvc.perform(get("/profissionais"))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.size()", is(professionals.size())))
                                 .andExpect(jsonPath("$[0].id", is(professionals.get(0).getId().intValue())))
@@ -118,7 +118,7 @@ public class ProfessionalControllerTest {
                 when(professionalService.getProfessionalById(professionalId)).thenReturn(professional);
 
                 // Perform GET request with ID parameter
-                mockMvc.perform(get("/profissional/{id}", professionalId))
+                mockMvc.perform(get("/profissionais/{id}", professionalId))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.id", is(professional.getId().intValue())))
                                 .andExpect(jsonPath("$.name", is(professional.getName())));
@@ -136,7 +136,7 @@ public class ProfessionalControllerTest {
                 when(professionalService.getProfessionalById(nonExistentId)).thenReturn(null);
 
                 // Perform GET request with non-existent ID parameter
-                mockMvc.perform(get("/profissional/{id}", nonExistentId))
+                mockMvc.perform(get("/profissionais/{id}", nonExistentId))
                                 .andExpect(status().isNotFound());
 
                 // Verify that the service method was called
@@ -157,7 +157,7 @@ public class ProfessionalControllerTest {
                 when(professionalService.getAllProfessionals(null, null)).thenReturn(professionals);
 
                 // Perform GET request without ID parameter
-                mockMvc.perform(get("/profissional"))
+                mockMvc.perform(get("/profissionais"))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.size()", is(professionals.size())))
                                 .andExpect(jsonPath("$[0].id", is(professionals.get(0).getId().intValue())))
@@ -181,7 +181,7 @@ public class ProfessionalControllerTest {
                 when(professionalService.getProfessionalById(professionalId)).thenReturn(professional);
 
                 // Perform the HTTP request to delete the professional
-                mockMvc.perform(delete("/profissional/{id}", professionalId))
+                mockMvc.perform(delete("/profissionais/{id}", professionalId))
                                 .andExpect(status().isOk());
 
                 // Verify that the service method was called to delete the professional
