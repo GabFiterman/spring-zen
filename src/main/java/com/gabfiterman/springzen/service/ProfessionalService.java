@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabfiterman.springzen.dto.CreateProfessionalData;
+import com.gabfiterman.springzen.dto.UpdateProfessionalData;
 import com.gabfiterman.springzen.model.Professional;
 import com.gabfiterman.springzen.repository.ProfessionalRepository;
 
@@ -80,6 +81,23 @@ public class ProfessionalService {
     public Professional getProfessionalById(Long id) {
         Optional<Professional> optionalProfessional = professionalRepository.findById(id);
         return optionalProfessional.orElse(null);
+    }
+
+    public void updateProfessional(Professional professional, UpdateProfessionalData data) {
+        if (data.name() != null) {
+            professional.setName(data.name());
+        }
+
+        if (data.role() != null) {
+            professional.setRole(data.role());
+        }
+
+        if (data.birthDate() != null) {
+            professional.setBirthDate(data.birthDate());
+        }
+
+        // Salvar as alterações no banco de dados
+        professionalRepository.save(professional);
     }
 
 }

@@ -8,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabfiterman.springzen.dto.CreateProfessionalData;
+import com.gabfiterman.springzen.dto.UpdateProfessionalData;
 import com.gabfiterman.springzen.model.Professional;
 import com.gabfiterman.springzen.service.ProfessionalService;
 
@@ -63,6 +65,22 @@ public class ProfessionalController {
         } else {
             List<Professional> professionals = professionalService.getAllProfessionals(q, fields);
             return ResponseEntity.ok(professionals);
+        }
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<String> updateProfessional(
+            @PathVariable Long id,
+            @RequestBody UpdateProfessionalData data) {
+
+        Professional professional = professionalService.getProfessionalById(id);
+
+        if (professional != null) {
+            professionalService.updateProfessional(professional, data);
+            return ResponseEntity.ok("Sucesso cadastrado alterado");
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
