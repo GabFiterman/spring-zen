@@ -8,5 +8,7 @@ public record CreateProfessionalData(
         String name,
         ProfessionalRole role,
         Date birthDate,
-        Date createdDate) {
+        Date createdDate,
+        Boolean active) {
+
 }

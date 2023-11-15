@@ -26,19 +26,23 @@ public class ProfessionalService {
 
     public List<Professional> getAllProfessionals(String query, List<String> fields) {
         List<Professional> professionals = professionalRepository.findAll();
-
+    
+        professionals = professionals.stream()
+                .filter(Professional::isActive)
+                .collect(Collectors.toList());
+    
         if (query != null && !query.isEmpty()) {
             String lowerQuery = query.replace("%", " ");
-
+    
             professionals = professionals.stream()
                     .filter(professional -> containsQuery(professional, lowerQuery))
                     .collect(Collectors.toList());
         }
-
+    
         if (fields != null && !fields.isEmpty()) {
             professionals = filterFields(professionals, fields);
         }
-
+    
         return professionals;
     }
 
@@ -98,6 +102,14 @@ public class ProfessionalService {
 
         // Salvar as alterações no banco de dados
         professionalRepository.save(professional);
+    }
+
+    public void excludeProfessional(Long id) {
+        Professional professional = professionalRepository.findById(id).orElse(null);
+        if (professional != null) {
+            professional.setActive(false);
+            professionalRepository.save(professional);
+        }
     }
 
 }
