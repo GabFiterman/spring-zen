@@ -39,7 +39,7 @@ public class ProfessionalControllerTest {
 
     // Test case for creating a professional
     @Test
-    public void ProfessionalControllerTest() throws Exception {
+    public void testCreateContact() throws Exception {
         // Setup test data
         Long professionalId = 1L;
         CreateProfessionalData data = new CreateProfessionalData("Jhon Doe", ProfessionalRole.Desenvolvedor,
@@ -65,6 +65,7 @@ public class ProfessionalControllerTest {
         return objectMapper.writeValueAsString(obj);
     }
 
+        // Test case for search all professionals
     @Test
     public void testListAllProfessionals() throws Exception {
         // Setup mock data
