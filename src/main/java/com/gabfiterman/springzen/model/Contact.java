@@ -11,6 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This class represents a contact entity, which can be associated with a
+ * professional.
+ */
 @Entity
 @Table(name = "contact")
 @Getter
@@ -20,6 +24,10 @@ import lombok.Setter;
 @EqualsAndHashCode(of = { "id" })
 public class Contact {
 
+        /**
+         * 
+         * @param data
+         */
         public Contact(CreateContactData data) {
                 this.name = data.name();
                 this.contact = data.contact();
@@ -28,6 +36,14 @@ public class Contact {
         }
 
         // Constructor to create a Contact directly (tests)
+        /**
+         * 
+         * @param id
+         * @param name
+         * @param contact
+         * @param createdDate
+         * @param active
+         */
         public Contact(Long id, String name, String contact, Date createdDate, boolean active) {
                 this.id = id;
                 this.name = name;
@@ -53,6 +69,9 @@ public class Contact {
         @JoinColumn(name = "professional_id")
         private Professional professional;
 
+        /**
+         * @param professional
+         */
         public void setProfessional(Professional professional) {
                 this.professional = professional;
         }
@@ -60,6 +79,9 @@ public class Contact {
         @Column(name = "active")
         private Boolean active;
 
+        /**
+         * @return boolean
+         */
         public boolean isActive() {
                 return active;
         }
