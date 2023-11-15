@@ -26,6 +26,14 @@ public class Contact {
                 this.createdDate = data.createdDate();
         }
 
+        // Construtor para criar um Contact diretamente (tests)
+        public Contact(Long id, String name, String contact, Date createdDate) {
+                this.id = id;
+                this.name = name;
+                this.contact = contact;
+                this.createdDate = createdDate;
+        }
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
