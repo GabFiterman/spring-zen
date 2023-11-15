@@ -89,7 +89,7 @@ public class ProfessionalController {
     @Transactional
     public ResponseEntity<String> deleteProfessionalLogically(@PathVariable Long id) {
         professionalService.excludeProfessional(id);
-        return ResponseEntity.ok("Sucesso contato excluído");
+        return ResponseEntity.ok("Sucesso profissional excluído");
     }
 
 }
