@@ -27,7 +27,7 @@ public class Contact {
                 this.active = true;
         }
 
-        // Construtor para criar um Contact diretamente (tests)
+        // Constructor to create a Contact directly (tests)
         public Contact(Long id, String name, String contact, Date createdDate, boolean active) {
                 this.id = id;
                 this.name = name;
@@ -46,7 +46,6 @@ public class Contact {
         @Column(nullable = false)
         private String contact;
 
-        // TODO: replace with @CreationTimestamp
         @Column(name = "created_date", nullable = false)
         private Date createdDate;
 

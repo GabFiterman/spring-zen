@@ -100,7 +100,6 @@ public class ProfessionalService {
             professional.setBirthDate(data.birthDate());
         }
 
-        // Salvar as alterações no banco de dados
         professionalRepository.save(professional);
     }
 
