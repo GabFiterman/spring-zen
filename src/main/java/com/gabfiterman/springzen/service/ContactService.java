@@ -17,6 +17,12 @@ import com.gabfiterman.springzen.repository.ProfessionalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+/**
+ * This class represents the service layer for the Contact entity. It contains
+ * methods for creating, reading, updating and deleting contacts.
+ * The class uses the ContactRepository and ProfessionalRepository interfaces to
+ * interact with the database.
+ */
 @Service
 public class ContactService {
 
@@ -26,6 +32,10 @@ public class ContactService {
     @Autowired
     private ProfessionalRepository professionalRepository;
 
+    /**
+     * @param data
+     * @return Long
+     */
     @Transactional
     public Long saveContact(CreateContactData data) {
         Professional professional = professionalRepository.findById(data.getProfessionalId())
@@ -40,6 +50,11 @@ public class ContactService {
         return savedContact.getId();
     }
 
+    /**
+     * @param query
+     * @param fields
+     * @return List<Contact>
+     */
     public List<Contact> getAllContacts(String query, List<String> fields) {
         List<Contact> contacts = contactRepository.findAll();
 
@@ -58,17 +73,32 @@ public class ContactService {
         return contacts;
     }
 
+    /**
+     * @param contact
+     * @param query
+     * @return boolean
+     */
     private boolean containsQuery(Contact contact, String query) {
         return contact.getName().contains(query) ||
                 contact.getContact().toString().contains(query) ||
                 contact.getCreatedDate().toString().contains(query);
     }
 
+    /**
+     * @param contacts
+     * @param fields
+     * @return List<Contact>
+     */
     private List<Contact> filterFields(List<Contact> contacts, List<String> fields) {
         return contacts.stream().map(contact -> filterContactFields(contact, fields))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param contact
+     * @param fields
+     * @return Contact
+     */
     private Contact filterContactFields(Contact contact, List<String> fields) {
         Contact filteredContact = new Contact();
         for (String field : fields) {
@@ -90,11 +120,19 @@ public class ContactService {
         return filteredContact;
     }
 
+    /**
+     * @param id
+     * @return Contact
+     */
     public Contact getContactById(Long id) {
         Optional<Contact> optionalContact = contactRepository.findById(id);
         return optionalContact.orElse(null);
     }
 
+    /**
+     * @param contact
+     * @param data
+     */
     public void updateContact(Contact contact, UpdateContactData data) {
         if (data.name() != null) {
             contact.setName(data.name());
@@ -114,6 +152,9 @@ public class ContactService {
         contactRepository.save(contact);
     }
 
+    /**
+     * @param id
+     */
     public void excludeContact(Long id) {
         Contact contact = contactRepository.findById(id).orElse(null);
         if (contact != null) {

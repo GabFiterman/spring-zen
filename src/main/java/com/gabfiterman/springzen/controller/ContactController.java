@@ -22,13 +22,27 @@ import com.gabfiterman.springzen.service.ContactService;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * Controller responsible for managing requests related to contacts.
+ * All requests are mapped to the path "/contacts".
+ */
 @RestController
 @RequestMapping("/contatos")
 public class ContactController {
 
+    /**
+     * Service responsible for managing contacts.
+     */
     @Autowired
     private ContactService contactService;
 
+    /**
+     * Creates a new contact with the data provided.
+     *
+     * @param data the data of the new contact
+     * @return a ResponseEntity object with a success message and the ID of the
+     *         contact created
+     */
     @PostMapping
     @Transactional
     public ResponseEntity<String> createContact(@RequestBody CreateContactData data) {
@@ -40,6 +54,13 @@ public class ContactController {
                 HttpStatus.CREATED);
     }
 
+    /**
+     * Returns a list of contacts based on query parameters.
+     *
+     * @param q      optional query to filter contacts
+     * @param fields optional fields to include in the response
+     * @return ResponseEntity with the corresponding contact list
+     */
     @GetMapping
     public ResponseEntity<List<Contact>> listAllContacts(
             @RequestParam(required = false) String q,
@@ -49,6 +70,15 @@ public class ContactController {
         return ResponseEntity.ok(contacts);
     }
 
+    /**
+     * Returns a contact by ID or all contacts if ID is not provided.
+     *
+     * @param id     The ID of the contact to be returned (optional).
+     * @param q      The search term to filter contacts (optional).
+     * @param fields The fields to be returned in the response (optional).
+     * @return A ResponseEntity object containing the contact or a list of contacts
+     *         and the status of the response.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getContactById(
             @PathVariable(required = false) Long id,
@@ -69,6 +99,15 @@ public class ContactController {
         }
     }
 
+    /**
+     * Updates a contact by its ID.
+     *
+     * @param id   the ID of the contact to be updated
+     * @param data the new contact details
+     * @return a ResponseEntity object with the message "Registered success changed"
+     *         if the contact was updated successfully, or a ResponseEntity object
+     *         with status 404 if the contact was not found
+     */
     @PutMapping("/{id}")
     public ResponseEntity<String> updateContactById(
             @PathVariable Long id,
@@ -84,9 +123,16 @@ public class ContactController {
         }
     }
 
+    /**
+     * Logically deletes a contact by its ID.
+     *
+     * @param id the ID of the contact to be deleted
+     * @return ResponseEntity with success message if the contact is deleted
+     *         successfully
+     */
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> deleteProfessionalLogically(@PathVariable Long id){
+    public ResponseEntity<String> deleteProfessionalLogically(@PathVariable Long id) {
         contactService.excludeContact(id);
         return ResponseEntity.ok("Sucesso contato excluído");
     }

@@ -11,6 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This class represents a Professional entity with its attributes and methods.
+ * It is mapped to the "professional" table in the database.
+ */
 @Entity
 @Table(name = "professional")
 @Getter
@@ -20,6 +24,10 @@ import lombok.Setter;
 @EqualsAndHashCode(of = { "id" })
 public class Professional {
 
+        /**
+         * 
+         * @param data
+         */
         public Professional(CreateProfessionalData data) {
                 this.name = data.name();
                 this.role = data.role();
@@ -48,6 +56,9 @@ public class Professional {
         @Column(name = "active")
         private Boolean active;
 
+        /**
+         * @return boolean
+         */
         public boolean isActive() {
                 return active;
         }
